@@ -1,0 +1,56 @@
+{% extends "kanjis/layout.html" %}
+
+{% block body %}
+    <h1>Data:</h1>
+    <table id="database">
+        <tr>
+            <th>Character</th>
+            <th>Pronunciation 1</th>
+            <th>Meaning 1</th>
+            <th>JLPT</th>
+            <th>RKMath</th>
+            <th>JALTAP</th>
+            <th>Somatome</th>
+            <th>Pronunciation 2</th>
+            <th>Meaning 2</th>
+        </tr>
+        {% for entry in data %}
+        <tr>
+            <td>{{entry.character}}</td>
+            <td>{{entry.pron1}}</td>
+            <td>{{entry.mean1}}</td>
+            <td>{{entry.jlpt}}</td>
+            <td>{{entry.rkmath}}</td>
+            <td>{{entry.jaltap}}</td>
+            <td>{{entry.somatome}}</td>
+            <td>{{entry.pron2}}</td>
+            <td>{{entry.mean2}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>Add data:</h2>
+    <div id="form">
+        <form method="post">
+            {% csrf_token %}
+            <label>Enter the Kanji:</label>
+            <input type="text" name="character" required><br>
+            <label>Pronunciation 1:</label>
+            <input type="text" name="pron1" required><br>
+            <label>Meaning 1:</label>
+            <input type="text" name="mean1" required><br>
+            <label>Pronunciation 2:</label>
+            <input type="text" name="pron2"><br>
+            <label>Meaning 2:</label>
+            <input type="text" name="mean2"><br>
+            <label>JLPT Level N_:</label>
+            <input type="number" name="jlpt" required><br>
+            <label>RKMath Level:</label>
+            <input type="text" name="rkmath"><br>
+            <label>Jaltap Chapter:</label>
+            <input type="number" name="jaltap"><br>
+            <label>Somatome Chapter:</label>
+            <input type="number" name="somatome"><br>
+            <input type="submit">
+        </form>
+    </div>
+{% endblock %}

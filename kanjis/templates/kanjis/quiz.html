@@ -1,0 +1,76 @@
+{% extends "kanjis/layout.html" %}
+{% load static %}
+
+{% block header %}
+<script>
+    const kanjiData = {
+        character: "{{ data.character|escapejs }}",
+        pron1 : "{{ data.pron1|escapejs }}",
+        mean1 : "{{data.mean1|escapejs }}",
+        pron2 : "{{ data.pron2|default_if_none:''|escapejs }}",
+        mean2 : "{{ data.mean2|default_if_none:''|escapejs }}",
+    };
+</script>
+<script src="{% static 'kanjis/quiz.js' %}" defer></script>
+{% endblock %}
+
+{% block body %}
+<div id="result" onclick="move_result()">
+    <h1 id="lsk">Last Submitted Kanji</h1>
+    <h2 id="previous_kanji"></h2>
+    <h3 class="ans_head">Your answers:</h3>
+    <h3 id="your_ans"></h3>
+    <h3 class="ans_head">Correct answers:</h3>
+    <h3 id="correct_ans"></h3>
+    <h3 id="feedback"></h3>
+</div>
+<h1 id="question">What is this Kanji?</h1>
+<div class="lander">
+    <h1 id="quiz_text">{{data.character}}</h1>
+</div>
+<div id="filter_section">
+    <div class="filter_cell">
+        <h1 id="filter_by">Filter by:</h1>
+    </div>
+    <div class="filter_cell">
+        <form>
+            <input type="text">
+            <input type="submit" placeholder="Apply">
+        </form>
+    </div>
+    <div class="filter_cell"></div>
+    <div class="filter_cell"></div>
+    <div class="filter_cell"></div>
+    <div class="filter_cell"></div>
+    <div class="filter_cell"></div>
+    <div class="filter_cell"></div>
+    <div class="filter_cell"></div>
+    <div class="filter_cell">
+        <div id="capsule">
+        </div>
+    </div>
+</div>
+<div id="questionnaire">
+    <form id="quiz_form" method="post" autocomplete="off">
+        {% csrf_token %}
+        <input type="text" name="pron1_ans" id="pron1_ans" placeholder="Pronunciation (+10)" autofocus>
+        <input type="text" name="mean1_ans" id="mean1_ans" placeholder="Meaning (+5)">
+        {% if data.pron2 and data.mean2 %}
+        <br>
+        <input type="text" name="pron2_ans" id="pron2_ans" placeholder="Alt. Pronunciation (+10)">
+        <input type="text" name="mean2_ans" id="mean2_ans" placeholder="Alt. Meaning (+5)">
+        {% else %}
+        <input type="text" name="pron2_ans" id="pron2_ans" hidden>
+        <input type="text" name="mean2_ans" id="mean2_ans" hidden>
+        {% endif %}
+        <br>
+        <input class="push_button" type="submit" id="ans_submit">
+    </form>
+</div>
+<div id="points_section">
+    <div class="push_button" id="points_box">
+        <h3 id="points">{{points}}</h3>
+        <p id="ctr" style="color: chocolate;">Click to reset</p>
+    </div>
+</div>
+{% endblock %}
