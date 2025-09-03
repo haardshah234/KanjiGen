@@ -26,7 +26,13 @@
 </div>
 <h1 id="question">What is this Kanji?</h1>
 <div class="lander">
-    <h1 id="quiz_text">{{data.character}}</h1>
+    <h1 id="quiz_text">
+        {% if data %}
+        {{data.character}}
+        {% else %}
+        Nil
+        {% endif %}
+    </h1>
 </div>
 <div id="filter_section">
     <div class="filter_cell">
@@ -51,26 +57,36 @@
     </div>
 </div>
 <div id="questionnaire">
-    <form id="quiz_form" method="post" autocomplete="off">
-        {% csrf_token %}
-        <input type="text" name="pron1_ans" id="pron1_ans" placeholder="Pronunciation (+10)" autofocus>
-        <input type="text" name="mean1_ans" id="mean1_ans" placeholder="Meaning (+5)">
-        {% if data.pron2 and data.mean2 %}
-        <br>
-        <input type="text" name="pron2_ans" id="pron2_ans" placeholder="Alt. Pronunciation (+10)">
-        <input type="text" name="mean2_ans" id="mean2_ans" placeholder="Alt. Meaning (+5)">
-        {% else %}
-        <input type="text" name="pron2_ans" id="pron2_ans" hidden>
-        <input type="text" name="mean2_ans" id="mean2_ans" hidden>
-        {% endif %}
-        <br>
-        <input class="push_button" type="submit" id="ans_submit">
-    </form>
+    {% if data %}
+        <form id="quiz_form" method="post" autocomplete="off">
+            {% csrf_token %}
+            <input type="text" name="pron1_ans" id="pron1_ans" placeholder="Pronunciation (+10)" autofocus>
+            <input type="text" name="mean1_ans" id="mean1_ans" placeholder="Meaning (+5)">
+            {% if data.pron2 and data.mean2 %}
+            <br>
+            <input type="text" name="pron2_ans" id="pron2_ans" placeholder="Alt. Pronunciation (+10)">
+            <input type="text" name="mean2_ans" id="mean2_ans" placeholder="Alt. Meaning (+5)">
+            {% else %}
+            <input type="text" name="pron2_ans" id="pron2_ans" hidden>
+            <input type="text" name="mean2_ans" id="mean2_ans" hidden>
+            {% endif %}
+            <br>
+            <input class="push_button" type="submit" id="ans_submit">
+        </form>
+    {% else %}
+        <a type="push_button" href="{% url 'quiz' %}" class="push_button" id="goback">Go Back</a>
+    {% endif %}
 </div>
+<p style="text-align: center;">{{message}}</p>
 <div id="points_section">
     <div class="push_button" id="points_box">
         <h3 id="points">{{points}}</h3>
         <p id="ctr" style="color: chocolate;">Click to reset</p>
     </div>
 </div>
+{% if bag_empty %}
+    <script>
+        alert("You have finished all Kanjis in this category! The quiz will now restart.");
+    </script>
+{% endif %}
 {% endblock %}

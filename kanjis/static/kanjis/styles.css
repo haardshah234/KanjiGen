@@ -21,6 +21,17 @@ input {
     scale: 95%;
 }
 
+#goback {
+    background-color: lightblue;
+    border: 3px solid blue;
+    color: blue;
+    text-decoration: none;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
 #form {
     background-color: darkgray;
     color: black;

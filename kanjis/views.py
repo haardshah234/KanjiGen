@@ -30,23 +30,157 @@ def data(request):
     return render(request, "kanjis/data.html", {"data" : mydata,})
 
 def quiz(request):
-    if 'remaining_kanjis' not in request.session or not request.session['remaining_kanjis']:
-        all_kanjis = list(Kanji.objects.values_list('character',flat=True))
-        random.shuffle(all_kanjis)
-        request.session['remaining_kanjis'] = all_kanjis
-        request.session.modified = True
+    all_kanjis = list(Kanji.objects.all().values_list("id",flat=True))
+    if not all_kanjis:
+        current_kanji = None
+        message = "No Kanjis in this category. Click to go back."
+        return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message,})
+    
+    bag_key = f'bag'
+    bag = request.session.get(bag_key, all_kanjis.copy())
+    bag_empty = False
+    if not bag:
+        bag = all_kanjis.copy()
+        bag_empty = True
 
-    kanji_characters = request.session['remaining_kanjis']
-    current_kanji_character = kanji_characters.pop(0)
-    request.session['remaining_kanjis'] = kanji_characters
-    request.session.modified = True
+    last_key = f"last"
+    last_id = request.session.get(last_key)
 
-    current_kanji = Kanji.objects.get(character=current_kanji_character)
-
+    if not last_id:
+        current_kanji_id = random.choice(bag)
+        bag.remove(current_kanji_id)
+        request.session[bag_key] = bag
+        request.session[last_key] = current_kanji_id
+    else:
+        current_kanji_id = last_id
+    current_kanji = Kanji.objects.get(id=current_kanji_id)
+    message = ""
     if request.method == "POST":
+        request.session[last_key] = None
         return redirect('quiz')
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji,})
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": bag_empty,})
 
-def get_kanji(request):
-    category = request.GET.get("category","n5")
-    kanjis = list(Kanji.objects.filter())
+def quiz_jlpt(request, jlptlevel):
+    all_kanjis = list(Kanji.objects.filter(jlpt=jlptlevel).values_list("id",flat=True))
+    if not all_kanjis:
+        current_kanji = None
+        message = "No Kanjis in this category. Click to go back."
+        return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message,})
+    
+    bag_key = f'bag_{jlptlevel}'
+    bag = request.session.get(bag_key, all_kanjis.copy())
+    bag_empty = False
+    if not bag:
+        bag = all_kanjis.copy()
+        bag_empty = True
+
+    last_key = f"last_{jlptlevel}"
+    last_id = request.session.get(last_key)
+
+    if not last_id:
+        current_kanji_id = random.choice(bag)
+        bag.remove(current_kanji_id)
+        request.session[bag_key] = bag
+        request.session[last_key] = current_kanji_id
+    else:
+        current_kanji_id = last_id
+    current_kanji = Kanji.objects.get(id=current_kanji_id)
+    message = ""
+    if request.method == "POST":
+        request.session[last_key] = None
+        return redirect('quiz_jaltap',jlptlevel=jlptlevel)
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": bag_empty,})
+
+def quiz_rkmath(request, course):
+    course = str(course).upper()
+    all_kanjis = list(Kanji.objects.filter(rkmath=course).values_list("id",flat=True))
+    if not all_kanjis:
+        current_kanji = None
+        message = "No Kanjis in this category. Click to go back."
+        return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message,})
+    
+    bag_key = f'bag_{course}'
+    bag = request.session.get(bag_key, all_kanjis.copy())
+    bag_empty = False
+    if not bag:
+        bag = all_kanjis.copy()
+        bag_empty = True
+
+    last_key = f"last_{course}"
+    last_id = request.session.get(last_key)
+
+    if not last_id:
+        current_kanji_id = random.choice(bag)
+        bag.remove(current_kanji_id)
+        request.session[bag_key] = bag
+        request.session[last_key] = current_kanji_id
+    else:
+        current_kanji_id = last_id
+    current_kanji = Kanji.objects.get(id=current_kanji_id)
+    message = ""
+    if request.method == "POST":
+        request.session[last_key] = None
+        return redirect('quiz_jaltap',course=course)
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": bag_empty,})
+
+def quiz_jaltap(request, chapter):
+    all_kanjis = list(Kanji.objects.filter(jaltap=chapter).values_list("id",flat=True))
+    if not all_kanjis:
+        current_kanji = None
+        message = "No Kanjis in this category. Click to go back."
+        return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message,})
+    
+    bag_key = f'bag_{chapter}'
+    bag = request.session.get(bag_key, all_kanjis.copy())
+    bag_empty = False
+    if not bag:
+        bag = all_kanjis.copy()
+        bag_empty = True
+
+    last_key = f"last_{chapter}"
+    last_id = request.session.get(last_key)
+
+    if not last_id:
+        current_kanji_id = random.choice(bag)
+        bag.remove(current_kanji_id)
+        request.session[bag_key] = bag
+        request.session[last_key] = current_kanji_id
+    else:
+        current_kanji_id = last_id
+    current_kanji = Kanji.objects.get(id=current_kanji_id)
+    message = ""
+    if request.method == "POST":
+        request.session[last_key] = None
+        return redirect('quiz_jaltap',chapter=chapter)
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message,"bag_empty": bag_empty,})
+
+def quiz_somatome(request, jlptlevel, chapter):
+    all_kanjis = list(Kanji.objects.filter(jlpt=jlptlevel, somatome=chapter).values_list("id",flat=True))
+    if not all_kanjis:
+        current_kanji = None
+        message = "No Kanjis in this category. Click to go back."
+        return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message,})
+    
+    bag_key = f'bag_{jlptlevel}_{chapter}'
+    bag = request.session.get(bag_key, all_kanjis.copy())
+    bag_empty = False
+    if not bag:
+        bag = all_kanjis.copy()
+        bag_empty = True
+
+    last_key = f"last_{jlptlevel}_{chapter}"
+    last_id = request.session.get(last_key)
+
+    if not last_id:
+        current_kanji_id = random.choice(bag)
+        bag.remove(current_kanji_id)
+        request.session[bag_key] = bag
+        request.session[last_key] = current_kanji_id
+    else:
+        current_kanji_id = last_id
+    current_kanji = Kanji.objects.get(id=current_kanji_id)
+    message = ""
+    if request.method == "POST":
+        request.session[last_key] = None
+        return redirect('quiz_somatome',jlptlevel=jlptlevel, chapter=chapter)
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty":bag_empty,})
