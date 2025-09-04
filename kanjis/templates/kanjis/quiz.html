@@ -34,15 +34,11 @@
         {% endif %}
     </h1>
 </div>
-<div id="filter_section">
+<div id="filter_section" onclick="move_filter()">
     <div class="filter_cell">
         <h1 id="filter_by">Filter by:</h1>
     </div>
     <div class="filter_cell">
-        <form>
-            <input type="text">
-            <input type="submit" placeholder="Apply">
-        </form>
     </div>
     <div class="filter_cell"></div>
     <div class="filter_cell"></div>
@@ -53,6 +49,8 @@
     <div class="filter_cell"></div>
     <div class="filter_cell">
         <div id="capsule">
+            <div class="onlyupto" id="upto_box" onclick="setMode('upto')">Upto</div>
+            <div class="onlyupto" id="only_box" onclick="setMode('only')">Only</div>
         </div>
     </div>
 </div>
@@ -86,7 +84,7 @@
 </div>
 {% if bag_empty %}
     <script>
-        alert("You have finished all Kanjis in this category! The quiz will now restart.");
+        //alert("You have finished all Kanjis in this category! The quiz will now restart.");
     </script>
 {% endif %}
 {% endblock %}

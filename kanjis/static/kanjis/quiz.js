@@ -173,6 +173,65 @@ function move_result() {
         localStorage.setItem('result_shown',shown);
     }
 }
+function move_filter() {
+    let shown = localStorage.getItem('filter_shown');
+    let obj = document.getElementById('filter_section');
+    if (shown == null) {
+        localStorage.setItem('filter_shown', true);
+    }
+    //alert(shown);
+    if (shown == 'true') {
+        obj.animate(
+            [
+                { transform: 'translateY(0%)' },
+                { transform: 'translateY(-100%)' }
+            ],
+            { duration: 1000, easing: 'ease-in-out', fill: 'forwards' }
+        );
+        shown = false;
+        localStorage.setItem('filter_shown',shown);
+    }
+    else {
+        obj.animate(
+            [
+                { transform: 'translateY(-100%)' },
+                { transform: 'translateY(0%)' }
+            ],
+            { duration: 1000, easing: 'ease-in-out', fill: 'forwards' }
+        );
+        shown = true;
+        localStorage.setItem('filter_shown',shown);
+    }
+}
+
+function setMode(mode) {
+    event.stopPropagation();
+    localStorage.setItem('mode', mode);
+    //alert("Mode set to: " + mode);
+    updateOnlyUptoStyle(mode);
+}
+
+function updateOnlyUptoStyle(mode) {
+    let only = document.getElementById("only_box");
+    let upto = document.getElementById("upto_box");
+
+    only.classList.remove("active");
+    upto.classList.remove("active");
+
+    if (mode == 'only') {
+        only.classList.add("active");
+    }
+    else {
+        upto.classList.add("active");
+    }
+}
+
+function redirectWithMode(event, element) {
+    event.preventDefault();
+    const mode = localStorage.getItem('mode') || 'only';
+    const url = element.getAttribute('href') + '?mode=' + mode;
+    window.location.href = url;
+}
 
 //const points = document.getElementById("points");
 document.addEventListener('DOMContentLoaded', () => {
@@ -193,4 +252,17 @@ document.addEventListener('DOMContentLoaded', () => {
         obj.style.transform = "translateY(-100%)";
         localStorage.setItem("result_shown", "false");
     }
+    const obj2 = document.getElementById("filter_section");
+    let shown2 = localStorage.getItem("filter_shown");
+
+    if (shown2 === "true") {
+        // If it was open before, keep it open without animation
+        obj2.style.transform = "translateY(0%)";
+    } else {
+        // Default to hidden
+        obj2.style.transform = "translateY(-100%)";
+        localStorage.setItem("filter_shown", "false");
+    }
+    let mode = localStorage.getItem('mode') || null;
+    updateOnlyUptoStyle(mode);
 }); 
