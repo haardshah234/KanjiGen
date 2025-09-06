@@ -221,16 +221,149 @@ function updateOnlyUptoStyle(mode) {
     if (mode == 'only') {
         only.classList.add("active");
     }
-    else {
+    else if (mode == 'upto') {
         upto.classList.add("active");
+    }
+}
+
+function setJLPT(level) {
+    event.stopPropagation();
+    localStorage.setItem('jlpt_level', level);
+    //alert("Mode set to: " + mode);
+    updateJLPTStyle(level);
+}
+
+function updateJLPTStyle(level) {
+    let n5 = document.getElementById("n5_box");
+    let n4 = document.getElementById("n4_box");
+    //alert(mystr);
+    n5.classList.remove("active");
+    n4.classList.remove("active");
+
+    if (level == 'n5') {
+        n5.classList.add("active");
+        updateSoumatomeCells();
+    }
+    else if (level == 'n4') {
+        n4.classList.add("active");
+        updateSoumatomeCells();
+    }
+}
+
+function clearAndDisplay(selection, shouldRedirect = true) {
+    event.stopPropagation();
+    const jlpt_options = document.getElementById("jlpt_options");
+    const rkmath_options = document.getElementById("rkmath_options");
+    const jaltap_options = document.getElementById("jaltap_options");
+    const soumatome_options = document.getElementById("soumatome_options");
+    jlpt_options.style = "display: none;"
+    rkmath_options.style = "display: none;"
+    jaltap_options.style = "display: none;"
+    soumatome_options.style = "display: none;"
+    const jlpt_filter = document.getElementById("jlpt_filter");
+    const rkmath_filter = document.getElementById("rkmath_filter");
+    const jaltap_filter = document.getElementById("jaltap_filter");
+    const soumatome_filter = document.getElementById("soumatome_filter");
+    //alert(selection);
+    jlpt_filter.classList.remove("active");
+    rkmath_filter.classList.remove("active");
+    jaltap_filter.classList.remove("active");
+    soumatome_filter.classList.remove("active");
+
+    if (selection == 'jlpt') {
+        jlpt_options.style = "display: grid;"
+        localStorage.setItem('active_filter','jlpt');
+        jlpt_filter.classList.add("active");
+    }
+    else if (selection == 'rkmath') {
+        rkmath_options.style = "display: grid;"
+        localStorage.setItem('active_filter','rkmath');
+        rkmath_filter.classList.add("active");
+    }
+    else if (selection == 'jaltap') {
+        jaltap_options.style = "display: grid;"
+        localStorage.setItem('active_filter','jaltap');
+        jaltap_filter.classList.add("active");
+    }
+    else if (selection == 'soumatome') {
+        soumatome_options.style = "display: grid;"
+        localStorage.setItem('active_filter','soumatome');
+        soumatome_filter.classList.add("active");
+        updateJLPTStyle(localStorage.getItem('jlpt_level'));
+    }
+    else if (selection == '') {
+        localStorage.removeItem('mode');
+        localStorage.removeItem('active_filter');
+        localStorage.removeItem('jlpt_level');
+        updateSoumatomeCells();
+        updateJLPTStyle(localStorage.getItem('jlpt_level'));
+        updateOnlyUptoStyle('');
+        if (shouldRedirect) window.location.href = '/quiz/';
     }
 }
 
 function redirectWithMode(event, element) {
     event.preventDefault();
     const mode = localStorage.getItem('mode') || 'only';
-    const url = element.getAttribute('href') + '?mode=' + mode;
+    const url = element.getAttribute('href') + '/?mode=' + mode;
     window.location.href = url;
+}
+
+function jlpt_redirect(jlptlevel) {
+    event.stopPropagation();
+    const baseURL = window.location.origin + '/quiz/';
+    if (jlptlevel == 'n5' || jlptlevel == 'n4' || jlptlevel == 'n3') {
+        const mode = localStorage.getItem('mode') || 'only';
+        if (mode == 'upto') window.location.href = baseURL + 'jlpt/' + jlptlevel + '/?mode=' + mode;
+        else window.location.href = baseURL + 'jlpt/' + jlptlevel;
+    }
+}
+
+function rkmath_redirect(rkmathcourse) {
+    event.stopPropagation();
+    const baseURL = window.location.origin + '/quiz/';
+    if (rkmathcourse == 'j1' || rkmathcourse == 'j2' || rkmathcourse == 's1' || rkmathcourse == 's2') {
+        const mode = localStorage.getItem('mode') || 'only';
+        if (mode == 'upto') window.location.href = baseURL + 'rkmath/' + rkmathcourse + '/?mode=' + mode;
+        else window.location.href = baseURL + 'rkmath/' + rkmathcourse;
+    }
+}
+
+function jaltap_redirect(chapter) {
+    event.stopPropagation();
+    const baseURL = window.location.origin + '/quiz/';
+    if (parseInt(chapter) >= 3 && parseInt(chapter) <= 34) {
+        const mode = localStorage.getItem('mode') || 'only';
+        if (mode == 'upto') window.location.href = baseURL + 'jaltap/' + chapter + '/?mode=' + mode;
+        else window.location.href = baseURL + 'jaltap/' + chapter;
+    }
+}
+
+function soumatome_redirect(chapter) {
+    event.stopPropagation();
+    const baseURL = window.location.origin + '/quiz/';
+    let jlpt_level = localStorage.getItem('jlpt_level');
+    if (!jlpt_level) jlpt_level = 'n5';
+    if (parseInt(chapter) >= 1 && parseInt(chapter) <= 20) {
+        const mode = localStorage.getItem('mode') || 'only';
+        if (mode == 'upto') window.location.href = baseURL + 'soumatome/' + jlpt_level + '/' + chapter + '/?mode=' + mode;
+        else window.location.href = baseURL + 'soumatome/' + jlpt_level + '/' + chapter;
+    }
+}
+
+function updateSoumatomeCells() {
+    let val = localStorage.getItem('jlpt_level');
+    const disabled_options = document.querySelectorAll(".table_option_disabled");
+    if (val == 'n5') {
+        disabled_options.forEach(option => {
+            option.classList.add('truly_disabled');
+        })
+    }
+    else if(val == 'n4') {
+        disabled_options.forEach(option => {
+            option.classList.remove('truly_disabled');
+        })
+    }
 }
 
 //const points = document.getElementById("points");
@@ -265,4 +398,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     let mode = localStorage.getItem('mode') || null;
     updateOnlyUptoStyle(mode);
+
+    let jlpt_level = localStorage.getItem('jlpt_level') || null;
+    if (!jlpt_level) localStorage.setItem('jlpt_level','n5');
+    updateJLPTStyle(jlpt_level);
+
+    let active_filter = localStorage.getItem('active_filter') || null;
+    if (active_filter) clearAndDisplay(active_filter, false);
+
+    updateSoumatomeCells();
 }); 

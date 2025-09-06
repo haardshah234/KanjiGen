@@ -58,7 +58,7 @@ def quiz(request):
     if request.method == "POST":
         request.session[last_key] = None
         return redirect('quiz')
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": bag_empty,})
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
 
 def quiz_jlpt(request, jlptlevel):
     mode = request.GET.get('mode','only')
@@ -93,7 +93,7 @@ def quiz_jlpt(request, jlptlevel):
     if request.method == "POST":
         request.session[last_key] = None
         return HttpResponseRedirect(request.get_full_path())
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": bag_empty,})
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
 
 def quiz_rkmath(request, course):
     mode = request.GET.get("mode","only")
@@ -145,7 +145,7 @@ def quiz_rkmath(request, course):
     if request.method == "POST":
         request.session[last_key] = None
         return HttpResponseRedirect(request.get_full_path())
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": bag_empty,})
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
 
 def quiz_jaltap(request, chapter):
 
@@ -182,7 +182,7 @@ def quiz_jaltap(request, chapter):
     if request.method == "POST":
         request.session[last_key] = None
         return HttpResponseRedirect(request.get_full_path())
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message,"bag_empty": bag_empty,})
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": bag,"bag_empty": (len(bag)==0),})
 
 def quiz_somatome(request, jlptlevel, chapter):
     mode = request.GET.get('mode','only')
@@ -217,4 +217,5 @@ def quiz_somatome(request, jlptlevel, chapter):
     if request.method == "POST":
         request.session[last_key] = None
         return redirect('quiz_somatome',jlptlevel=jlptlevel, chapter=chapter)
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty":bag_empty,})
+
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})

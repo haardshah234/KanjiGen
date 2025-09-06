@@ -6,7 +6,7 @@
     const kanjiData = {
         character: "{{ data.character|escapejs }}",
         pron1 : "{{ data.pron1|escapejs }}",
-        mean1 : "{{data.mean1|escapejs }}",
+        mean1 : "{{ data.mean1|escapejs }}",
         pron2 : "{{ data.pron2|default_if_none:''|escapejs }}",
         mean2 : "{{ data.mean2|default_if_none:''|escapejs }}",
     };
@@ -38,19 +38,106 @@
     <div class="filter_cell">
         <h1 id="filter_by">Filter by:</h1>
     </div>
-    <div class="filter_cell">
-    </div>
+    <!-- <div class="filter_cell"></div>
     <div class="filter_cell"></div>
     <div class="filter_cell"></div>
     <div class="filter_cell"></div>
     <div class="filter_cell"></div>
     <div class="filter_cell"></div>
     <div class="filter_cell"></div>
-    <div class="filter_cell"></div>
+    <div class="filter_cell"></div> -->
     <div class="filter_cell">
         <div id="capsule">
             <div class="onlyupto" id="upto_box" onclick="setMode('upto')">Upto</div>
             <div class="onlyupto" id="only_box" onclick="setMode('only')">Only</div>
+        </div>
+    </div>
+    <div class="filter_cell">
+        <div id="capsule2" onclick="clearAndDisplay('')">
+            Clear Filters
+        </div>
+    </div>
+    <div class="filter_cell" id="filter_categories">
+        <div class="filter_category" id="jlpt_filter" onclick="clearAndDisplay('jlpt')">JLPT</div>
+        <div class="filter_category" id="rkmath_filter" onclick="clearAndDisplay('rkmath')">RKMath</div>
+        <div class="filter_category" id="jaltap_filter" onclick="clearAndDisplay('jaltap')">Jaltap</div>
+        <div class="filter_category" id="soumatome_filter" onclick="clearAndDisplay('soumatome')">Sou Matome</div>
+    </div>
+    <div class="filter_cell" id="options">
+        <div class="option" id="jlpt_options">
+            <div class="option_box" onclick="jlpt_redirect('n5')">N5</div>
+            <div class="option_box" onclick="jlpt_redirect('n4')">N4</div>
+            <div class="option_box" onclick="jlpt_redirect('n3')">N3</div>
+            <div class="option_box_disabled">N2</div>
+            <div class="option_box_disabled">N1</div>
+        </div>
+        <div class="option" id="rkmath_options">
+            <div class="option_box" onclick="rkmath_redirect('j1')">J1</div>
+            <div class="option_box" onclick="rkmath_redirect('j2')">J2</div>
+            <div class="option_box" onclick="rkmath_redirect('s1')">S1</div>
+            <div class="option_box" onclick="rkmath_redirect('s2')">S2</div>
+        </div>
+        <div class="option" id="jaltap_options">
+            <div class="table_option" onclick="jaltap_redirect('3')">3</div>
+            <div class="table_option" onclick="jaltap_redirect('4')">4</div>
+            <div class="table_option" onclick="jaltap_redirect('5')">5</div>
+            <div class="table_option" onclick="jaltap_redirect('6')">6</div>
+            <div class="table_option" onclick="jaltap_redirect('7')">7</div>
+            <div class="table_option" onclick="jaltap_redirect('8')">8</div>
+            <div class="table_option" onclick="jaltap_redirect('9')">9</div>
+            <div class="table_option" onclick="jaltap_redirect('10')">10</div>
+            <div class="table_option" onclick="jaltap_redirect('11')">11</div>
+            <div class="table_option" onclick="jaltap_redirect('12')">12</div>
+            <div class="table_option" onclick="jaltap_redirect('13')">13</div>
+            <div class="table_option" onclick="jaltap_redirect('14')">14</div>
+            <div class="table_option" onclick="jaltap_redirect('15')">15</div>
+            <div class="table_option" onclick="jaltap_redirect('16')">16</div>
+            <div class="table_option" onclick="jaltap_redirect('17')">17</div>
+            <div class="table_option" onclick="jaltap_redirect('18')">18</div>
+            <div class="table_option" onclick="jaltap_redirect('19')">19</div>
+            <div class="table_option" onclick="jaltap_redirect('20')">20</div>
+            <div class="table_option" onclick="jaltap_redirect('21')">21</div>
+            <div class="table_option" onclick="jaltap_redirect('22')">22</div>
+            <div class="table_option" onclick="jaltap_redirect('23')">23</div>
+            <div class="table_option" onclick="jaltap_redirect('24')">24</div>
+            <div class="table_option" onclick="jaltap_redirect('25')">25</div>
+            <div class="table_option" onclick="jaltap_redirect('26')">26</div>
+            <div class="table_option" onclick="jaltap_redirect('27')">27</div>
+            <div class="table_option" onclick="jaltap_redirect('28')">28</div>
+            <div class="table_option" onclick="jaltap_redirect('29')">29</div>
+            <div class="table_option" onclick="jaltap_redirect('30')">30</div>
+            <div class="table_option" onclick="jaltap_redirect('31')">31</div>
+            <div class="table_option" onclick="jaltap_redirect('32')">32</div>
+            <div class="table_option" onclick="jaltap_redirect('33')">33</div>
+            <div class="table_option" onclick="jaltap_redirect('34')">34</div>
+        </div>
+        <div class="option" id="soumatome_options">
+            <div id="capsule3">
+                <div class="onlyupto" id="n5_box" onclick="setJLPT('n5')">N5</div>
+                <div class="onlyupto" id="n4_box" onclick="setJLPT('n4')">N4</div>
+            </div>
+            <div class="option" id="soumatome_options_table">               
+                <div class="table_option" onclick="soumatome_redirect('1')">1</div>
+                <div class="table_option" onclick="soumatome_redirect('2')">2</div>
+                <div class="table_option" onclick="soumatome_redirect('3')">3</div>
+                <div class="table_option" onclick="soumatome_redirect('4')">4</div>
+                <div class="table_option" onclick="soumatome_redirect('5')">5</div>
+                <div class="table_option" onclick="soumatome_redirect('6')">6</div>
+                <div class="table_option" onclick="soumatome_redirect('7')">7</div>
+                <div class="table_option" onclick="soumatome_redirect('8')">8</div>
+                <div class="table_option" onclick="soumatome_redirect('9')">9</div>
+                <div class="table_option" onclick="soumatome_redirect('10')">10</div>
+                <div class="table_option" onclick="soumatome_redirect('11')">11</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('12')">12</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('13')">13</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('14')">14</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('15')">15</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('16')">16</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('17')">17</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('18')">18</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('19')">19</div>
+                <div class="table_option_disabled" onclick="soumatome_redirect('20')">20</div>
+            </div>
         </div>
     </div>
 </div>
@@ -75,7 +162,7 @@
         <a type="push_button" href="{% url 'quiz' %}" class="push_button" id="goback">Go Back</a>
     {% endif %}
 </div>
-<p style="text-align: center;">{{message}}</p>
+<p style="text-align: center;" id="message">{{message}}</p>
 <div id="points_section">
     <div class="push_button" id="points_box">
         <h3 id="points">{{points}}</h3>
@@ -84,7 +171,7 @@
 </div>
 {% if bag_empty %}
     <script>
-        //alert("You have finished all Kanjis in this category! The quiz will now restart.");
+        document.getElementById('message').innerHTML = "You have finished all Kanjis in this category! The quiz will now restart.";
     </script>
 {% endif %}
 {% endblock %}
