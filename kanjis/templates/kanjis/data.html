@@ -18,15 +18,20 @@
         {% for entry in data %}
         <tr>
             <td>{{entry.id}}</td>
-            <td>{{entry.character}}</td>
+            <td class="kanji">{{entry.character}}</td>
             <td>{{entry.pron1}}</td>
             <td>{{entry.mean1}}</td>
             <td>{{entry.jlpt}}</td>
             <td>{{entry.rkmath}}</td>
             <td>{{entry.jaltap}}</td>
             <td>{{entry.somatome}}</td>
-            <td>{{entry.pron2}}</td>
-            <td>{{entry.mean2}}</td>
+            {% if entry.pron2 != None %}
+                <td>{{entry.pron2}}</td>
+                <td>{{entry.mean2}}</td>
+            {% else %}
+                <td></td>
+                <td></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
@@ -35,15 +40,11 @@
         <form method="post">
             {% csrf_token %}
             <label>Enter the Kanji:</label>
-            <input type="text" name="character" required><br>
+            <input type="text" name="character" required autofocus><br>
             <label>Pronunciation 1:</label>
             <input type="text" name="pron1" required><br>
             <label>Meaning 1:</label>
             <input type="text" name="mean1" required><br>
-            <label>Pronunciation 2:</label>
-            <input type="text" name="pron2"><br>
-            <label>Meaning 2:</label>
-            <input type="text" name="mean2"><br>
             <label>JLPT Level N_:</label>
             <input type="number" name="jlpt" required><br>
             <label>RKMath Level:</label>
@@ -52,7 +53,22 @@
             <input type="number" name="jaltap"><br>
             <label>Somatome Chapter:</label>
             <input type="number" name="somatome"><br>
+            <label>Pronunciation 2:</label>
+            <input type="text" name="pron2"><br>
+            <label>Meaning 2:</label>
+            <input type="text" name="mean2"><br>
             <input type="submit">
         </form>
     </div>
+    <script>
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('scrollPos', window.scrollY);
+        });
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedScrollPos = localStorage.getItem('scrollPos');
+            if (savedScrollPos) {
+                window.scrollTo(0, parseInt(savedScrollPos)+30);
+            }
+        });
+    </script>
 {% endblock %}

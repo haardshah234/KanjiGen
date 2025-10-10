@@ -86,7 +86,7 @@ function evaluate(event) {
     setTimeout(() => {
         mypoints.innerHTML = points;
         event.target.submit();
-    }, 20);
+    }, 1);
 }
 
 function clearPoints() {

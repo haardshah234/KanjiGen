@@ -39,6 +39,13 @@ input {
     padding: 10px;
     border-radius: 10px;
     max-width: max-content;
+    font-size: 42px;
+}
+
+#form > form > input {
+    height: 100%;
+    width: auto;
+    font-size: 42px;
 }
 
 tr:nth-child(odd){
@@ -46,12 +53,16 @@ tr:nth-child(odd){
     color: black;
 }
 tr:nth-child(even){
-    background-color: rgb(43, 43, 43);
+    background-color: rgb(93, 93, 93);
     color: white;
 }
 
 #database {
     color: black;
+}
+
+.kanji {
+    font-size: 40px;
 }
 
 td {
@@ -65,7 +76,18 @@ th {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 90vh;
+    text-align: center;
+    vertical-align: center;
+}
+
+#lander {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 60vh;
+    text-align: center;
+    vertical-align: center;
 }
 
 #lander_text {
@@ -180,7 +202,7 @@ th {
 }
 
 .filter_category.active {
-    background-color: #0d6efd;
+    background-color: #c9b7e7; /*#0d6efd*/
     border: 2px solid white;
     color: white;
     font-weight: bold;
@@ -292,6 +314,10 @@ th {
     height: 100%;
 }
 
+.table_option:hover {
+    scale: 95%;
+}
+
 .table_option_disabled {
     border: 2px solid darkgray;
     border-radius: 5px;
@@ -301,6 +327,10 @@ th {
     color: darkgray;
     width: 100%;
     height: 100%;
+}
+
+.table_option_disabled:hover {
+    scale: 95%;
 }
 
 .table_option_disabled.truly_disabled {

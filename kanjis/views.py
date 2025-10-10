@@ -182,7 +182,7 @@ def quiz_jaltap(request, chapter):
     if request.method == "POST":
         request.session[last_key] = None
         return HttpResponseRedirect(request.get_full_path())
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": bag,"bag_empty": (len(bag)==0),})
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message ,"bag_empty": (len(bag)==0),})
 
 def quiz_somatome(request, jlptlevel, chapter):
     mode = request.GET.get('mode','only')
