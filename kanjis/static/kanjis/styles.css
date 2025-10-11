@@ -94,6 +94,11 @@ th {
     font-size: 80px;
 }
 
+#message {
+    font-size: 20px;
+    color: lightgray;
+}
+
 #result {
     opacity: 0.85;
     display: flexbox;

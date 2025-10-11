@@ -55,6 +55,8 @@ def quiz(request):
         current_kanji_id = last_id
     current_kanji = Kanji.objects.get(id=current_kanji_id)
     message = ""
+    if current_kanji_id == 30:
+        message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
         return redirect('quiz')
@@ -90,6 +92,8 @@ def quiz_jlpt(request, jlptlevel):
         current_kanji_id = last_id
     current_kanji = Kanji.objects.get(id=current_kanji_id)
     message = ""
+    if current_kanji_id == 30:
+        message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
         return HttpResponseRedirect(request.get_full_path())
@@ -142,6 +146,8 @@ def quiz_rkmath(request, course):
         current_kanji_id = last_id
     current_kanji = Kanji.objects.get(id=current_kanji_id)
     message = ""
+    if current_kanji_id == 30:
+        message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
         return HttpResponseRedirect(request.get_full_path())
@@ -179,6 +185,8 @@ def quiz_jaltap(request, chapter):
         current_kanji_id = last_id
     current_kanji = Kanji.objects.get(id=current_kanji_id)
     message = ""
+    if current_kanji_id == 30:
+        message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
         return HttpResponseRedirect(request.get_full_path())
@@ -214,6 +222,8 @@ def quiz_somatome(request, jlptlevel, chapter):
         current_kanji_id = last_id
     current_kanji = Kanji.objects.get(id=current_kanji_id)
     message = ""
+    if current_kanji_id == 30:
+        message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
         return redirect('quiz_somatome',jlptlevel=jlptlevel, chapter=chapter)
