@@ -9,7 +9,7 @@ def lander(request):
 
 def data(request):
     mydata = Kanji.objects.all()
-
+    filtered_data = Kanji.objects.filter(rkmath='S1').order_by('jaltap').all()
     if request.method == "POST":
         character = request.POST.get('character')
         pron1 = request.POST.get('pron1')
@@ -27,7 +27,7 @@ def data(request):
         newKanji = Kanji(character=character, pron1=pron1, mean1=mean1, pron2=pron2, mean2=mean2, jlpt=jlpt, rkmath=rkmath, jaltap=jaltap, somatome=somatome)
         newKanji.save()
         return redirect("data")
-    return render(request, "kanjis/data.html", {"data" : mydata,})
+    return render(request, "kanjis/data.html", {"data" : filtered_data,})
 
 def quiz(request):
     all_kanjis = list(Kanji.objects.all().values_list("id",flat=True))
