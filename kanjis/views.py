@@ -9,7 +9,7 @@ def lander(request):
 
 def data(request):
     mydata = Kanji.objects.all()
-    filtered_data = Kanji.objects.filter(rkmath='S1').order_by('jaltap').all()
+    filtered_data = Kanji.objects.all() #.filter(rkmath='S1').order_by('jaltap')
     if request.method == "POST":
         character = request.POST.get('character')
         pron1 = request.POST.get('pron1')

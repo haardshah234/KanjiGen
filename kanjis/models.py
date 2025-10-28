@@ -11,7 +11,7 @@ class Kanji(models.Model):
     mean2 = models.CharField(null=True, blank=True)
     jlpt = models.IntegerField(null=False,validators=[MinValueValidator(1),MaxValueValidator(5)])
     rkmath = models.CharField(max_length=2,null=True)
-    jaltap = models.IntegerField(null=True,validators=[MinValueValidator(1),MaxValueValidator(34)])
+    jaltap = models.IntegerField(null=True,validators=[MinValueValidator(1),MaxValueValidator(35)])
     somatome = models.IntegerField()
 
     def __str__(self):
