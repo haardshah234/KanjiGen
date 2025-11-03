@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse,HttpResponseRedirect
+from django.urls import reverse
+from django.http import JsonResponse,HttpResponseRedirect,HttpRequest
 from .models import *
 import random
 
 # Create your views here.
-def lander(request):
+def lander(request:HttpRequest):
     return render(request, "kanjis/lander.html")
 
-def data(request):
+def data(request:HttpRequest):
     mydata = Kanji.objects.all()
     filtered_data = Kanji.objects.all()#.filter(jaltap=35).order_by('jaltap')
     if request.method == "POST":
@@ -29,7 +30,7 @@ def data(request):
         return redirect("data")
     return render(request, "kanjis/data.html", {"data" : filtered_data,})
 
-def quiz(request):
+def quiz(request:HttpRequest):
     all_kanjis = list(Kanji.objects.all().values_list("id",flat=True))
     if not all_kanjis:
         current_kanji = None
@@ -62,10 +63,10 @@ def quiz(request):
         return redirect('quiz')
     return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
 
-def quiz_jlpt(request, jlptlevel):
+def quiz_jlpt(request:HttpRequest, jlptlevel):
     mode = request.GET.get('mode','only')
     if mode == 'upto':
-        all_kanjis = list(Kanji.objects.filter(jlpt__lte=jlptlevel).values_list("id",flat=True))
+        all_kanjis = list(Kanji.objects.filter(jlpt__gte=jlptlevel).values_list("id",flat=True))
     else:
         all_kanjis = list(Kanji.objects.filter(jlpt=jlptlevel).values_list("id",flat=True))
     if not all_kanjis:
@@ -96,10 +97,13 @@ def quiz_jlpt(request, jlptlevel):
         message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
-        return HttpResponseRedirect(request.get_full_path())
+        query_string = request.META.get('QUERY_STRING', '')
+        base_path = request.path
+        redirect_url = f"{base_path}?{query_string}" if query_string else base_path
+        return HttpResponseRedirect(redirect_url)
     return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
 
-def quiz_rkmath(request, course):
+def quiz_rkmath(request:HttpRequest, course):
     mode = request.GET.get("mode","only")
     course = str(course).upper()
 
@@ -150,10 +154,13 @@ def quiz_rkmath(request, course):
         message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
-        return HttpResponseRedirect(request.get_full_path())
+        query_string = request.META.get('QUERY_STRING', '')
+        base_path = request.path
+        redirect_url = f"{base_path}?{query_string}" if query_string else base_path
+        return HttpResponseRedirect(redirect_url)
     return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
 
-def quiz_jaltap(request, chapter):
+def quiz_jaltap(request:HttpRequest, chapter):
 
     mode = request.GET.get('mode','only')
 
@@ -189,10 +196,13 @@ def quiz_jaltap(request, chapter):
         message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
-        return HttpResponseRedirect(request.get_full_path())
+        query_string = request.META.get('QUERY_STRING', '')
+        base_path = request.path
+        redirect_url = f"{base_path}?{query_string}" if query_string else base_path
+        return HttpResponseRedirect(redirect_url)
     return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message ,"bag_empty": (len(bag)==0),})
 
-def quiz_somatome(request, jlptlevel, chapter):
+def quiz_somatome(request:HttpRequest, jlptlevel, chapter):
     mode = request.GET.get('mode','only')
     if mode == 'upto':
         all_kanjis = list(Kanji.objects.filter(jlpt=jlptlevel, somatome__lte=chapter).values_list("id",flat=True))
@@ -226,6 +236,15 @@ def quiz_somatome(request, jlptlevel, chapter):
         message = "Except for wakeru-divide"
     if request.method == "POST":
         request.session[last_key] = None
-        return redirect('quiz_somatome',jlptlevel=jlptlevel, chapter=chapter)
+        query_string = request.META.get('QUERY_STRING', '')
+        base_path = request.path
+        redirect_url = f"{base_path}?{query_string}" if query_string else base_path
+        return HttpResponseRedirect(redirect_url)
 
     return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
+
+def about(request:HttpRequest):
+    return render(request, "kanjis/about.html")
+
+def howto(request:HttpRequest):
+    return render(request, "kanjis/howto.html")

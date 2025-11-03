@@ -3,8 +3,14 @@
 
 {% block body %}
     <div class="lander">
-        <a href="/quiz" id="lander_anchor">
             <h1 id="lander_text">Welcome to KanjiGen</h1>
-        </a>
+        <div id="modes_section">
+            <h1>Select a Mode:</h1><br>
+            <div id="modes">
+                <a href="/quiz" class="modes"><div id="infinite_quiz" class="mode">Infinite Quiz</div></a>
+                <a href="/assess" class="modes"><div id="assessment" class="mode">Assessment</div></a>
+                <a href="/time" class="modes"><div id="time_challenge" class="mode">Time Challenge</div></a>
+            </div>
+        </div>
     </div>
 {% endblock %}

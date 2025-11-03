@@ -24,7 +24,7 @@
     <h3 id="correct_ans"></h3>
     <h3 id="feedback"></h3>
 </div>
-<h1 id="question">What is this Kanji?</h1>
+<h1 id="question">What Kanji is this?</h1>
 <div id="lander">
     <h1 id="quiz_text">
         {% if data %}
@@ -70,43 +70,51 @@
             <div class="option_box" onclick="rkmath_redirect('s2')">S2</div>
         </div>
         <div class="option" id="jaltap_options">
-            <div class="table_option" onclick="jaltap_redirect('3')">3</div>
-            <div class="table_option" onclick="jaltap_redirect('4')">4</div>
-            <div class="table_option" onclick="jaltap_redirect('5')">5</div>
-            <div class="table_option" onclick="jaltap_redirect('6')">6</div>
-            <div class="table_option" onclick="jaltap_redirect('7')">7</div>
-            <div class="table_option" onclick="jaltap_redirect('8')">8</div>
-            <div class="table_option" onclick="jaltap_redirect('9')">9</div>
-            <div class="table_option" onclick="jaltap_redirect('10')">10</div>
-            <div class="table_option" onclick="jaltap_redirect('11')">11</div>
-            <div class="table_option" onclick="jaltap_redirect('12')">12</div>
-            <div class="table_option" onclick="jaltap_redirect('13')">13</div>
-            <div class="table_option" onclick="jaltap_redirect('14')">14</div>
-            <div class="table_option" onclick="jaltap_redirect('15')">15</div>
-            <div class="table_option" onclick="jaltap_redirect('16')">16</div>
-            <div class="table_option" onclick="jaltap_redirect('17')">17</div>
-            <div class="table_option" onclick="jaltap_redirect('18')">18</div>
-            <div class="table_option" onclick="jaltap_redirect('19')">19</div>
-            <div class="table_option" onclick="jaltap_redirect('20')">20</div>
-            <div class="table_option" onclick="jaltap_redirect('21')">21</div>
-            <div class="table_option" onclick="jaltap_redirect('22')">22</div>
-            <div class="table_option" onclick="jaltap_redirect('23')">23</div>
-            <div class="table_option" onclick="jaltap_redirect('24')">24</div>
-            <div class="table_option" onclick="jaltap_redirect('25')">25</div>
-            <div class="table_option" onclick="jaltap_redirect('26')">26</div>
-            <div class="table_option" onclick="jaltap_redirect('27')">27</div>
-            <div class="table_option" onclick="jaltap_redirect('28')">28</div>
-            <div class="table_option" onclick="jaltap_redirect('29')">29</div>
-            <div class="table_option" onclick="jaltap_redirect('30')">30</div>
-            <div class="table_option" onclick="jaltap_redirect('31')">31</div>
-            <div class="table_option" onclick="jaltap_redirect('32')">32</div>
-            <div class="table_option" onclick="jaltap_redirect('33')">33</div>
-            <div class="table_option" onclick="jaltap_redirect('34')">34</div>
+            <div id="capsule4">
+                <div class="remaining" id="jaltap_remaining" onclick="jaltap_redirect('35')">Remaining</div>
+            </div>
+            <div class="option" id="jaltap_options_table">
+                <div class="table_option" onclick="jaltap_redirect('3')">3</div>
+                <div class="table_option" onclick="jaltap_redirect('4')">4</div>
+                <div class="table_option" onclick="jaltap_redirect('5')">5</div>
+                <div class="table_option" onclick="jaltap_redirect('6')">6</div>
+                <div class="table_option" onclick="jaltap_redirect('7')">7</div>
+                <div class="table_option" onclick="jaltap_redirect('8')">8</div>
+                <div class="table_option" onclick="jaltap_redirect('9')">9</div>
+                <div class="table_option" onclick="jaltap_redirect('10')">10</div>
+                <div class="table_option" onclick="jaltap_redirect('11')">11</div>
+                <div class="table_option" onclick="jaltap_redirect('12')">12</div>
+                <div class="table_option" onclick="jaltap_redirect('13')">13</div>
+                <div class="table_option" onclick="jaltap_redirect('14')">14</div>
+                <div class="table_option" onclick="jaltap_redirect('15')">15</div>
+                <div class="table_option" onclick="jaltap_redirect('16')">16</div>
+                <div class="table_option" onclick="jaltap_redirect('17')">17</div>
+                <div class="table_option" onclick="jaltap_redirect('18')">18</div>
+                <div class="table_option" onclick="jaltap_redirect('19')">19</div>
+                <div class="table_option" onclick="jaltap_redirect('20')">20</div>
+                <div class="table_option" onclick="jaltap_redirect('21')">21</div>
+                <div class="table_option" onclick="jaltap_redirect('22')">22</div>
+                <div class="table_option" onclick="jaltap_redirect('23')">23</div>
+                <div class="table_option" onclick="jaltap_redirect('24')">24</div>
+                <div class="table_option" onclick="jaltap_redirect('25')">25</div>
+                <div class="table_option" onclick="jaltap_redirect('26')">26</div>
+                <div class="table_option" onclick="jaltap_redirect('27')">27</div>
+                <div class="table_option" onclick="jaltap_redirect('28')">28</div>
+                <div class="table_option" onclick="jaltap_redirect('29')">29</div>
+                <div class="table_option" onclick="jaltap_redirect('30')">30</div>
+                <div class="table_option" onclick="jaltap_redirect('31')">31</div>
+                <div class="table_option" onclick="jaltap_redirect('32')">32</div>
+                <div class="table_option" onclick="jaltap_redirect('33')">33</div>
+                <div class="table_option" onclick="jaltap_redirect('34')">34</div>
+            </div>
         </div>
         <div class="option" id="soumatome_options">
             <div id="capsule3">
                 <div class="onlyupto" id="n5_box" onclick="setJLPT('n5')">N5</div>
                 <div class="onlyupto" id="n4_box" onclick="setJLPT('n4')">N4</div>
+            </div>
+            <div id="capsule4">
+                <div class="remaining" id="soumatome_remaining" onclick="soumatome_redirect('21')">Remaining</div>
             </div>
             <div class="option" id="soumatome_options_table">               
                 <div class="table_option" onclick="soumatome_redirect('1')">1</div>
@@ -160,6 +168,13 @@
         <h3 id="points">{{points}}</h3>
         <p id="ctr" style="color: chocolate;">Click to reset</p>
     </div>
+</div>
+<div id="info_section">
+    <a href="/about">About</a>
+    <span class="middot">&#9679;</span>
+    <a href="/howto">How to Play</a>
+    <span class="middot">&#9679;</span>
+    <a href="../">Go Back</a>
 </div>
 {% if bag_empty %}
     <script>

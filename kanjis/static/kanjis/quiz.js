@@ -104,7 +104,7 @@ function populate_result_board() {
         document.getElementById('feedback').innerHTML = "Good Job!";
     }
     else {
-        document.getElementById('result').style = "background-color: lightpink; border: 3px solid red; color: red;"
+        document.getElementById('result').style = "background-color: var(--danger); border: 3px solid red; color: red;"
         document.getElementById('feedback').innerHTML = "It's Okay! Better Luck next time!";
     }
     //Case1 
@@ -332,7 +332,7 @@ function rkmath_redirect(rkmathcourse) {
 function jaltap_redirect(chapter) {
     event.stopPropagation();
     const baseURL = window.location.origin + '/quiz/';
-    if (parseInt(chapter) >= 3 && parseInt(chapter) <= 34) {
+    if (parseInt(chapter) >= 3 && parseInt(chapter) <= 35) {
         const mode = localStorage.getItem('mode') || 'only';
         if (mode == 'upto') window.location.href = baseURL + 'jaltap/' + chapter + '/?mode=' + mode;
         else window.location.href = baseURL + 'jaltap/' + chapter;
@@ -344,7 +344,7 @@ function soumatome_redirect(chapter) {
     const baseURL = window.location.origin + '/quiz/';
     let jlpt_level = localStorage.getItem('jlpt_level');
     if (!jlpt_level) jlpt_level = 'n5';
-    if (parseInt(chapter) >= 1 && parseInt(chapter) <= 20) {
+    if (parseInt(chapter) >= 1 && parseInt(chapter) <= 21) {
         const mode = localStorage.getItem('mode') || 'only';
         if (mode == 'upto') window.location.href = baseURL + 'soumatome/' + jlpt_level + '/' + chapter + '/?mode=' + mode;
         else window.location.href = baseURL + 'soumatome/' + jlpt_level + '/' + chapter;
