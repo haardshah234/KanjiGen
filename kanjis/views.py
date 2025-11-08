@@ -10,7 +10,7 @@ def lander(request:HttpRequest):
 
 def data(request:HttpRequest):
     mydata = Kanji.objects.all()
-    filtered_data = Kanji.objects.all()#.filter(jaltap=35).order_by('jaltap')
+    filtered_data = Kanji.objects.all()#filter(jaltap=35).order_by('jaltap')
     if request.method == "POST":
         character = request.POST.get('character')
         pron1 = request.POST.get('pron1')
@@ -205,7 +205,7 @@ def quiz_jaltap(request:HttpRequest, chapter):
 def quiz_somatome(request:HttpRequest, jlptlevel, chapter):
     mode = request.GET.get('mode','only')
     if mode == 'upto':
-        all_kanjis = list(Kanji.objects.filter(jlpt=jlptlevel, somatome__lte=chapter).values_list("id",flat=True))
+        all_kanjis = list(Kanji.objects.filter(jlpt=jlptlevel, somatome__gte=1, somatome__lte=chapter).values_list("id",flat=True))
     else:
         all_kanjis = list(Kanji.objects.filter(jlpt=jlptlevel, somatome=chapter).values_list("id",flat=True))
     if not all_kanjis:
@@ -241,7 +241,7 @@ def quiz_somatome(request:HttpRequest, jlptlevel, chapter):
         redirect_url = f"{base_path}?{query_string}" if query_string else base_path
         return HttpResponseRedirect(redirect_url)
 
-    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": message, "bag_empty": (len(bag)==0),})
+    return render(request, "kanjis/quiz.html", {"data" : current_kanji, "message": bag, "bag_empty": (len(bag)==0),})
 
 def about(request:HttpRequest):
     return render(request, "kanjis/about.html")
